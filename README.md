@@ -2,6 +2,8 @@
 
 React Native sample app about simple interactive animation effect
 
+![preview](./preview.gif)
+
 ## Used Libraries 
 - [React Native](http://facebook.github.io/react-native/)
 - [Lottie](https://github.com/airbnb/lottie-react-native)

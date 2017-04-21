@@ -72,7 +72,7 @@ class HeartComponent extends PureComponent{
 
     if( this.particleIntervalTime > 100 ){
       this.speedInterval = setTimeout(() => {
-        this.particleIntervalTime = this.particleIntervalTime - 100;
+        this.particleIntervalTime = this.particleIntervalTime - 50;
         this._particleContinue();
       }, 1000 );
     }
