@@ -17,10 +17,7 @@ class HeartParticle extends PureComponent{
   }
 
   state = {
-    yValue: new Animated.Value( 0 ),
-    xValue: new Animated.Value( 0 ),
-    fadeAnim: new Animated.Value( 1 ),
-    scaleX: new Animated.Value( 1 ),
+    animation: new Animated.Value( 0 ),
   }
 
   componentDidMount(){
@@ -28,46 +25,43 @@ class HeartParticle extends PureComponent{
   }
 
   _startSmallHeart = () => {
-    this.state.yValue.setValue( 0 );
-    this.state.xValue.setValue( 0 );
-    this.state.fadeAnim.setValue( 0 );
-    this.state.scaleX.setValue( 1 );
-
-    Animated.parallel([
-      Animated.timing( this.state.yValue, { toValue: 1, duration }),
-      Animated.timing( this.state.xValue, { toValue: 1, duration }),
-      Animated.timing( this.state.scaleX, { toValue: 2, duration }),
-      Animated.timing( this.state.fadeAnim, { toValue: 1, duration }),
-    ]).start( this._endAnimation );
+    this.state.animation.setValue( 0 );
+    Animated.timing( this.state.animation, { toValue: 1, duration }).start( this._endAnimation );
   }
 
   _endAnimation = () => {
     this.props.onEndParticle();
   }
 
-  render(){
-    const y = this.state.yValue.interpolate({
+  _getInterpolateValue = () => {
+    const y = this.state.animation.interpolate({
       inputRange: [ 0, 1 ],
       outputRange: [ 10, -200 ],
     });
 
     const xIndex = Math.floor( Math.random()*bezierInputRange.length );
-    const x = this.state.xValue.interpolate({
+    const x = this.state.animation.interpolate({
       inputRange: bezierInputRange[xIndex],
       outputRange: bezierOutputRange( xIndex ),
     });
 
-    const alpha = this.state.fadeAnim.interpolate({
+    const alpha = this.state.animation.interpolate({
       inputRange: [ 0, 0.3, 1 ],
       outputRange: [ 0, 1, 0 ],
     });
 
-    const scaleX = this.state.scaleX.interpolate({
-      inputRange: [ 1, 1.2, 1.3, 2 ],
+    const scaleX = this.state.animation.interpolate({
+      inputRange: [ 0, 0.2, 0.3, 1 ],
       outputRange: [ 0.5, 1.2, 1, 1 ],
     });
 
     const rndScale = Math.random()*0.2+0.4;
+
+    return { y, x, alpha, scaleX, rndScale };
+  }
+
+  render(){
+    const { y, x, alpha, scaleX, rndScale } = this._getInterpolateValue();
 
     return (
       <Animated.View style={{

@@ -1,6 +1,6 @@
 # Lincroft
 
-React Native sample app about simple interactive animation effect
+simple interactive animation effect React Native
 
 ![preview](./preview.gif)
 
